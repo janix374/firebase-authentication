@@ -1,0 +1,9 @@
+.hero {
+    // mozemo da uvozimo sliku sa relativnog path-a
+    background-image: url('../images/images.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 300px;
+    width: 100%;
+}
