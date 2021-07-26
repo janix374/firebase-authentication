@@ -61,7 +61,7 @@ const Signup = () => {
 			await signup(emailRef.current.value, passwordRef.current.value);
 			setSubmitting(true);
 		} catch (error) {
-			setError('Fail to create an account');
+			setError(error.message);
 		}
 		setloading(false);
 	}

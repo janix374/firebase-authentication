@@ -55,7 +55,7 @@ const Login = () => {
 			await login(emailRef.current.value, passwordRef.current.value);
 			setSubmitting(true);
 		} catch (error) {
-			setError('Fail to log in');
+			setError(error.message);
 		}
 		setloading(false);
 	}

@@ -22,7 +22,7 @@ const Dashboard = () => {
 			await logout();
 			history.push('/login');
 		} catch (error) {
-			setError('Fail to log out');
+			setError(error.message);
 		}
 	}
 	return (

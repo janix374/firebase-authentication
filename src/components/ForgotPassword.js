@@ -49,7 +49,7 @@ const ForgotPassword = () => {
 			await resetPassword(emailRef.current.value);
 			setMessage('Check your inbox for further instruction');
 		} catch (error) {
-			setError('Fail to reset password');
+			setError(error.message);
 		}
 
 		setloading(false);

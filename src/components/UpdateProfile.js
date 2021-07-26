@@ -70,7 +70,7 @@ const UpdateProfile = () => {
 				history.push('/');
 			})
 			.catch(() => {
-				setError(' Fail to update account');
+				setError(error.message);
 			})
 			.finally(() => {
 				setloading(false);
