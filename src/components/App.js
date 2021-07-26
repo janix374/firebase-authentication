@@ -1,6 +1,6 @@
-import { Container } from 'react-bootstrap';
+import { Container } from '@material-ui/core';
 import { AuthProvider } from '../contexts/AuthContext';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import Signup from './Signup';
 import Dashboard from './Dashboard';
 import Login from './Login';
@@ -10,16 +10,13 @@ import UpdateProfile from './UpdateProfile';
 
 const App = () => {
 	return (
-		<Container
-			className='d-flex algin-items-center justify-content-center'
-			style={{ minHeight: '100vh' }}
-		>
-			<div className='w-100' style={{ maxWidth: '400px' }}>
+		<Container>
+			<div>
 				<Router>
 					<AuthProvider>
 						<Switch>
 							<PrivateRout exact path='/' component={Dashboard} />
-							<PrivateRout path='/update-portfolio' component={UpdateProfile} />
+							<PrivateRout path='/updateportfolio' component={UpdateProfile} />
 							<Route path='/signup' component={Signup} />
 							<Route path='/login' component={Login} />
 							<Route path='/forgot-password' component={ForgotPassword} />

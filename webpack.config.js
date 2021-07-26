@@ -11,7 +11,7 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist'),
 		assetModuleFilename: 'images/[hash][ext][query]',
 		clean: true,
-		publicPath: '/firebase-authentication/dist/',
+		publicPath: '/firebase-authentication/',
 	},
 	module: {
 		rules: [
@@ -52,8 +52,8 @@ module.exports = {
 	},
 	devServer: {
 		contentBase: path.join(__dirname, 'dist'),
-		port: 3000,
 		hot: true,
+		port: 3000,
 		historyApiFallback: true,
 	},
 };

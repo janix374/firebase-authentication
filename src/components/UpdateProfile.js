@@ -1,9 +1,37 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Form, Card, Button, Alert } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography, TextField, Grid, Button } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+
+const useStyles = makeStyles((theme) => ({
+	paper: {
+		marginTop: theme.spacing(8),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		margin: '0px auto',
+		width: '400px',
+	},
+	avatar: {
+		margin: theme.spacing(1),
+		backgroundColor: theme.palette.secondary.main,
+	},
+	form: {
+		width: '100%',
+		marginTop: theme.spacing(3),
+	},
+	submit: {
+		margin: theme.spacing(3, 0, 2),
+	},
+	otherLinks: {
+		marginTop: theme.spacing(2),
+	},
+}));
 
 const UpdateProfile = () => {
+	const classes = useStyles();
 	const emailRef = useRef();
 	const passwordRef = useRef();
 	const passwordConfirmRef = useRef();
@@ -21,7 +49,6 @@ const UpdateProfile = () => {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		// validation
 
 		if (passwordRef.current.value !== passwordConfirmRef.current.value) {
 			return setError('password dont match');
@@ -52,44 +79,71 @@ const UpdateProfile = () => {
 
 	return (
 		<>
-			<Card>
-				<Card.Body>
-					<h2 className='text-center mb-4'>Update Profile</h2>
-					{/* kada refresujemo stranicu nas currentUser je nula */}
-					{currentUser && currentUser.email}
-					{error && <Alert variant='danger'>{error}</Alert>}
-					<Form onSubmit={handleSubmit}>
-						<Form.Group id='email'>
-							<Form.Label>Email</Form.Label>
-							<Form.Control
-								type='email'
-								ref={emailRef}
+			<div className={classes.paper}>
+				<Typography component='h1' variant='h5'>
+					Update Profile
+				</Typography>
+				{error && <Alert severity='error'>{error}</Alert>}
+				<form className={classes.form} onSubmit={handleSubmit}>
+					<Grid container spacing={2}>
+						<Grid item xs={12}>
+							<TextField
+								variant='outlined'
 								required
-								defaultValue={currentUser.email}
+								fullWidth
+								id='email'
+								label='Email Address'
+								name='email'
+								autoComplete='email'
+								inputRef={emailRef}
 							/>
-						</Form.Group>
-						<Form.Group id='password'>
-							<Form.Label>Password</Form.Label>
-							<Form.Control
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								variant='outlined'
+								required
+								fullWidth
+								name='password'
+								label='Password'
 								type='password'
-								ref={passwordRef}
-								required
-								placeholder='Leave blank to keep the same'
+								id='password'
+								autoComplete='current-password'
+								inputRef={passwordRef}
 							/>
-						</Form.Group>
-						<Form.Group id='password-confirm'>
-							<Form.Label>Password Confirmation</Form.Label>
-							<Form.Control type='password' ref={passwordConfirmRef} required />
-						</Form.Group>
-						<p>Must have at list 6 caracters</p>
-						<Button className='w-100 mt-5' type='submit' disabled={loading}>
-							Update
-						</Button>
-					</Form>
-				</Card.Body>
-			</Card>
-			<div className='w-100 text-center mt-2'>
-				<Link to='/'>Cancel</Link>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								variant='outlined'
+								required
+								fullWidth
+								name='confirm-password'
+								label='Confirm Password'
+								type='password'
+								id='confirm-password'
+								autoComplete='current-password'
+								inputRef={passwordConfirmRef}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<Typography component='h1' variant='h5'>
+								Must have at list 6 caracters for password
+							</Typography>
+						</Grid>
+					</Grid>
+					<Button
+						type='submit'
+						fullWidth
+						variant='contained'
+						color='primary'
+						className={classes.submit}
+						disabled={loading}
+					>
+						Update
+					</Button>
+				</form>
+				<Typography component='h1' variant='h5'>
+					<Link to='/'>Cancel</Link>
+				</Typography>
 			</div>
 		</>
 	);

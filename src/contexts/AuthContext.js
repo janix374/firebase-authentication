@@ -1,6 +1,7 @@
 import { autoInject } from 'async';
 import React, { useContext, useState, useEffect } from 'react';
-import { auth } from '../firebase';
+import { auth } from '../firebase/firebaseConfig';
+import PropTypes from 'prop-types';
 
 const AuthContext = React.createContext();
 
@@ -60,3 +61,7 @@ export function AuthProvider({ children }) {
 		</AuthContext.Provider>
 	);
 }
+
+AuthProvider.propTypes = {
+	children: PropTypes.any,
+};

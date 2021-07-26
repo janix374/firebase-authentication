@@ -1,9 +1,38 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Form, Card, Button, Alert } from 'react-bootstrap';
+import { Avatar, Typography, TextField, Grid, Button } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { makeStyles } from '@material-ui/core/styles';
+import BackupIcon from '@material-ui/icons/Backup';
+import Alert from '@material-ui/lab/Alert';
+
+const useStyles = makeStyles((theme) => ({
+	paper: {
+		marginTop: theme.spacing(8),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		margin: '0px auto',
+		width: '400px',
+	},
+	avatar: {
+		margin: theme.spacing(1),
+		backgroundColor: theme.palette.secondary.main,
+	},
+	form: {
+		width: '100%',
+		marginTop: theme.spacing(3),
+	},
+	submit: {
+		margin: theme.spacing(3, 0, 2),
+	},
+	otherLinks: {
+		marginTop: theme.spacing(2),
+	},
+}));
 
 const Signup = () => {
+	const classes = useStyles();
 	const emailRef = useRef();
 	const passwordRef = useRef();
 	const passwordConfirmRef = useRef();
@@ -21,7 +50,6 @@ const Signup = () => {
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		// validation
 
 		if (passwordRef.current.value !== passwordConfirmRef.current.value) {
 			return setError('password dont match');
@@ -31,45 +59,83 @@ const Signup = () => {
 			setError('');
 			setloading(true);
 			await signup(emailRef.current.value, passwordRef.current.value);
-			// history.push('/login');
 			setSubmitting(true);
 		} catch (error) {
 			setError('Fail to create an account');
 		}
-
 		setloading(false);
 	}
 
 	return (
 		<>
-			<Card>
-				<Card.Body>
-					<h2 className='text-center mb-4'>Sign Up</h2>
-					{/* kada refresujemo stranicu nas currentUser je nula */}
-					{currentUser && currentUser.email}
-					{error && <Alert variant='danger'>{error}</Alert>}
-					<Form onSubmit={handleSubmit}>
-						<Form.Group id='email'>
-							<Form.Label>Email</Form.Label>
-							<Form.Control type='email' ref={emailRef} required />
-						</Form.Group>
-						<Form.Group id='password'>
-							<Form.Label>Password</Form.Label>
-							<Form.Control type='password' ref={passwordRef} required />
-						</Form.Group>
-						<Form.Group id='password-confirm'>
-							<Form.Label>Password Confirmation</Form.Label>
-							<Form.Control type='password' ref={passwordConfirmRef} required />
-						</Form.Group>
-						<p>Must have at list 6 caracters</p>
-						<Button className='w-100 mt-5' type='submit' disabled={loading}>
-							Sign Up
-						</Button>
-					</Form>
-				</Card.Body>
-			</Card>
-			<div className='w-100 text-center mt-2'>
-				Already have an account? <Link to='/login'>Log in</Link>
+			<div className={classes.paper}>
+				<Avatar className={classes.avatar}>
+					<BackupIcon />
+				</Avatar>
+				<Typography component='h1' variant='h5'>
+					Sign Up
+				</Typography>
+				{error && <Alert severity='error'>{error}</Alert>}
+				<form className={classes.form} onSubmit={handleSubmit}>
+					<Grid container spacing={2}>
+						<Grid item xs={12}>
+							<TextField
+								variant='outlined'
+								required
+								fullWidth
+								id='email'
+								label='Email Address'
+								name='email'
+								autoComplete='email'
+								inputRef={emailRef}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								variant='outlined'
+								required
+								fullWidth
+								name='password'
+								label='Password'
+								type='password'
+								id='password'
+								autoComplete='current-password'
+								inputRef={passwordRef}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								variant='outlined'
+								required
+								fullWidth
+								name='confirm-password'
+								label='Confirm Password'
+								type='password'
+								id='confirm-password'
+								autoComplete='current-password'
+								inputRef={passwordConfirmRef}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<Typography component='h1' variant='h5'>
+								Must have at list 6 caracters for password
+							</Typography>
+						</Grid>
+					</Grid>
+					<Button
+						type='submit'
+						fullWidth
+						variant='contained'
+						color='primary'
+						className={classes.submit}
+						disabled={loading}
+					>
+						Sign Up
+					</Button>
+				</form>
+				<Typography component='h1' variant='h5'>
+					Already have an account? <Link to='/login'>Log in</Link>
+				</Typography>
 			</div>
 		</>
 	);

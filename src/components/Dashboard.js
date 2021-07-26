@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
-import { Card, Button, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography, Grid, Button } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+
+const useStyles = makeStyles((theme) => ({
+	profileClass: {
+		marginTop: theme.spacing(4),
+	},
+}));
 
 const Dashboard = () => {
+	const classes = useStyles();
 	const [error, setError] = useState('');
 	const { currentUser, logout } = useAuth();
 	const history = useHistory();
@@ -18,21 +27,28 @@ const Dashboard = () => {
 	}
 	return (
 		<>
-			<Card>
-				<Card.Body>
-					<h2 className='text-center mb-4'>Profile</h2>
+			<Grid container spacing={3} className={classes.profileClass}>
+				<Grid item xs={12} sm={2}></Grid>
+				<Grid item xs={12} sm={8}>
+					<Typography component='h1' variant='h5'>
+						Profile
+					</Typography>
+
 					{error && <Alert variant='danger'>{error}</Alert>}
-					<strong>Email: </strong> {currentUser && currentUser.email}
-					<Link to='/update-portfolio' className='btn btn-primary w-100 mt-3'>
-						Update
-					</Link>
-				</Card.Body>
-			</Card>
-			<div className='w-100 text-center mt-2'>
-				<Button variant='link' onClick={handleLogout}>
-					Log Out
-				</Button>
-			</div>
+					<Typography component='h1' variant='h5'>
+						<strong>Email: </strong> {currentUser && currentUser.email}
+					</Typography>
+					<Typography component='h1' variant='h5'>
+						<Link to='/updateportfolio'>Update</Link>
+					</Typography>
+				</Grid>
+				<Grid item xs={12} sm={8}></Grid>
+				<div>
+					<Button variant='contained' color='secondary' onClick={handleLogout}>
+						Log Out
+					</Button>
+				</div>
+			</Grid>
 		</>
 	);
 };
